@@ -10,17 +10,42 @@ var Models = require('../models');
 router.get('/:id', function(req, res, next) {
   // Hae viesti tällä id:llä ja siihen liittyvät vastaukset tässä (Vinkki: findOne ja sopiva include)
   var messageId = req.params.id;
-  res.send(200);
+  
+  Models.Message.findOne({where: {id: messageId},
+                          include: {model: Models.Reply}}).then(function(message) {
+        if (message === null) {
+            res.sendStatus(400);
+            return;
+        }
+                          
+        res.send(message);
+    });
 });
 
 // POST /messages/:id/reply
 router.post('/:id/reply', function(req, res, next){
-  // Lisää tällä id:llä varustettuun viestiin...
-  var messageId = req.params.id;
-  // ...tämä vastaus (Vinkki: lisää ensin replyToAdd-objektiin kenttä MessageId, jonka arvo on messageId-muuttujan arvo ja käytä sen jälkeen create-funktiota)
-  var replyToAdd = req.body;
-  // Palauta vastauksena lisätty vastaus
-  res.send(200);
+    // Lisää tällä id:llä varustettuun viestiin...
+    var messageId = req.params.id;
+    // ...tämä vastaus (Vinkki: lisää ensin replyToAdd-objektiin kenttä MessageId, jonka arvo on messageId-muuttujan arvo ja käytä sen jälkeen create-funktiota)
+
+    var replyToAdd = req.body;
+
+    if (!("content" in replyToAdd)) {
+        res.sendStatus(400);
+        return;
+    }
+
+    Models.Message.findOne({where: {id: messageId}}).then(function(message) {
+        if (message === null) {
+            res.sendStatus(400);
+            return;
+        }
+        
+        Models.Reply.create({MessageId: messageId,
+                             content: replyToAdd.content}).then(function(reply) {
+            res.send(reply);
+        });
+    });
 });
 
 module.exports = router;
