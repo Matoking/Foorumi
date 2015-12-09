@@ -18,23 +18,25 @@
             <p>{{message.content}}</p>
             
             <p class="text-muted">
-                KÄYTTÄJÄTUNNUS, {{message.createdAt | date:'dd.MM.yyyy @ h:mma'}}
+                {{message.User.username}}, {{message.createdAt | date:'dd.MM.yyyy @ h:mma'}}
             </p>
         </div>
     </li>
 </ul>
 
-<h2>Lisää oma viestisi</h2>
+<div ng-show="userLoggedIn">
+    <h2>Lisää oma viestisi</h2>
 
-<form name="newMessageForm">
-  <div class="form-group">
-    <label>Otsikko</label>
-    <input ng-model="newMessage.title" type="text" class="form-control" required ng-minlength="1">
-  </div>
+    <form name="newMessageForm">
+      <div class="form-group">
+        <label>Otsikko</label>
+        <input ng-model="newMessage.title" type="text" class="form-control" required ng-minlength="1">
+      </div>
 
-  <div class="form-group">
-    <label>Viesti</label>
-    <textarea ng-model="newMessage.content" class="form-control" required ng-minlength="1"></textarea>
-  </div>
-  <button ng-click="addMessage()" ng-disabled="newMessageForm.$invalid" class="btn btn-success">Lisää viesti</button>
-</form>
+      <div class="form-group">
+        <label>Viesti</label>
+        <textarea ng-model="newMessage.content" class="form-control" required ng-minlength="1"></textarea>
+      </div>
+      <button ng-click="addMessage()" ng-disabled="newMessageForm.$invalid" class="btn btn-success">Lisää viesti</button>
+    </form>
+</div>

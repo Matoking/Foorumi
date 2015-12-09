@@ -9,9 +9,11 @@ FoorumApp.controller('ShowMessageController', function($scope, $routeParams, Api
         var reply = $scope.reply;
         
         Api.addReply(reply, messageId).success(function(message) {
-            $scope.message.Replies.push(message);
+            message.User = $scope.userLoggedIn;
             
-            $scope.reply = {};
+            $scope.message.Replies.push(message);
         });
+        
+        $scope.reply = "";
     };
 });

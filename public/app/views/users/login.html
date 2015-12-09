@@ -2,16 +2,20 @@
   <h1>Kirjaudu sisään</h1>
 </div>
 
-<form>
-  <div class="form-group">
-    <label>Käyttäjätunnus</label>
-    <input type="text" class="form-control">
-  </div>
+<form name="loginForm">
+    <div class="form-group">
+      <label>Käyttäjätunnus</label>
+      <input name="username" ng-model="username" type="text" class="form-control" required ng-minlength="1">
+    </div>
 
-  <div class="form-group">
-    <label>Salasana</label>
-    <input type="text" class="form-control">
-  </div>
+    <div class="form-group">
+      <label>Salasana</label>
+      <input name="password" ng-model="password" type="password" class="form-control" required ng-minlength="1">
+    </div>
 
-  <button class="btn btn-primary">Kirjaudu sisään</button>
+    <div ng-show="errorMessage" class="alert alert-danger">
+        {{errorMessage}}
+    </div>
+    
+    <button ng-click="login()" ng-disabled="loginForm.$invalid" class="btn btn-primary">Kirjaudu sisään</button>
 </form>

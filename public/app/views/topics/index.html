@@ -13,17 +13,19 @@
     </div>
 </div>
 
-<h2>Lisää oma aihealueesi</h2>
+<div ng-show="userLoggedIn">
+    <h2>Lisää oma aihealueesi</h2>
 
-<form name="newTopicForm">
-  <div class="form-group">
-    <label>Nimi</label>
-    <input type="text" class="form-control" ng-model="newTopic.name" required ng-minlength="1">
-  </div>
+    <form name="newTopicForm">
+      <div class="form-group">
+        <label>Nimi</label>
+        <input type="text" class="form-control" ng-model="newTopic.name" required ng-minlength="1">
+      </div>
 
-  <div class="form-group">
-    <label>Kuvaus</label>
-    <textarea class="form-control" ng-model="newTopic.description" required ng-minlength="1"></textarea>
-  </div>
-  <button ng-disabled="newTopicForm.$invalid" class="btn btn-success" ng-click="addTopic()">Lisää aihealue</button>
-</form>
+      <div class="form-group">
+        <label>Kuvaus</label>
+        <textarea class="form-control" ng-model="newTopic.description" required ng-minlength="1"></textarea>
+      </div>
+      <button ng-disabled="newTopicForm.$invalid" class="btn btn-success" ng-click="addTopic()">Lisää aihealue</button>
+    </form>
+</div>

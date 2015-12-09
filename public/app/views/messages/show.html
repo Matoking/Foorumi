@@ -11,7 +11,7 @@
 <ul ng-repeat="reply in message.Replies" class="media-list">
     <li class="media">
         <div class="media-body">
-            <h4 class="media-heading">USERNAME</h4>
+            <h4 class="media-heading">{{reply.User.username}}</h4>
             
             <p>{{reply.content}}</p>
             
@@ -22,12 +22,14 @@
     </li>
 </ul>
 
-<h2>Lisää oma vastauksesi</h2>
+<div ng-show="userLoggedIn">
+    <h2>Lisää oma vastauksesi</h2>
 
-<form name="replyForm">
-  <div class="form-group">
-    <label>Vastaus</label>
-    <textarea ng-model="reply.content" class="form-control" required ng-minlength="1"></textarea>
-  </div>
-  <button ng-click="addReply()" ng-disabled="replyForm.$invalid" class="btn btn-success">Lisää vastaus</button>
-</form>
+    <form name="replyForm">
+      <div class="form-group">
+        <label>Vastaus</label>
+        <textarea ng-model="reply.content" class="form-control" required ng-minlength="1"></textarea>
+      </div>
+      <button ng-click="addReply()" ng-disabled="replyForm.$invalid" class="btn btn-success">Lisää vastaus</button>
+    </form>
+</div>

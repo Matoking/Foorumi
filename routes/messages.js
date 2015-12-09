@@ -12,7 +12,8 @@ router.get('/:id', function(req, res, next) {
   var messageId = req.params.id;
   
   Models.Message.findOne({where: {id: messageId},
-                          include: {model: Models.Reply}}).then(function(message) {
+                          include: {model: Models.Reply,
+                                    include: {model: Models.User}}}).then(function(message) {
         if (message === null) {
             res.sendStatus(400);
             return;
@@ -23,7 +24,7 @@ router.get('/:id', function(req, res, next) {
 });
 
 // POST /messages/:id/reply
-router.post('/:id/reply', function(req, res, next){
+router.post('/:id/reply', authentication, function(req, res, next){
     // Lisää tällä id:llä varustettuun viestiin...
     var messageId = req.params.id;
     // ...tämä vastaus (Vinkki: lisää ensin replyToAdd-objektiin kenttä MessageId, jonka arvo on messageId-muuttujan arvo ja käytä sen jälkeen create-funktiota)
@@ -42,6 +43,7 @@ router.post('/:id/reply', function(req, res, next){
         }
         
         Models.Reply.create({MessageId: messageId,
+                             UserId: req.session.userId,
                              content: replyToAdd.content}).then(function(reply) {
             res.send(reply);
         });
